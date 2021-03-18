@@ -49,7 +49,7 @@ public class ImageForNotesFragment extends Fragment {
         imageCoatOfArms.setImageResource(images.getResourceId(note.getImageIndex(), -1));
         // Установить название города
         TextView noteNameView = view.findViewById(R.id.textView);
-        noteNameView.setText(note.getNoteName());
+        noteNameView.setText(note.getNoteName2());
 
         return view;
     }

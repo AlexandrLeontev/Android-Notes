@@ -2,6 +2,7 @@ package ru.geekbrains.notes;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
 
 public class NotesFragment extends Fragment {
 
@@ -38,7 +40,7 @@ public class NotesFragment extends Fragment {
     // создаём список заметок на экране из массива в ресурсах
     private void initList(View view) {
         LinearLayout layoutView = (LinearLayout)view;
-        String[] notes = getResources().getStringArray(R.array.notes);
+        String[] notes = (getResources().getStringArray(R.array.notes));
 
         // В этом цикле создаём элемент TextView,
         // заполняем его значениями,
@@ -49,12 +51,14 @@ public class NotesFragment extends Fragment {
             TextView tv = new TextView(getContext());
             tv.setText(note);
             tv.setTextSize(30);
+            tv.setTextColor(Color.rgb(255,255,255));
             layoutView.addView(tv);
+            tv.setPadding(0,22,0,0);
             final int fi = i;
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    currentNote = new Note(fi, getResources().getStringArray(R.array.notes) [fi]);
+                    currentNote = new Note(fi, getResources().getStringArray(R.array.notes) [fi], getResources().getStringArray(R.array.content_for_notes) [fi]);
                     showImageForNotes(currentNote);
                 }
             });
@@ -82,7 +86,7 @@ public class NotesFragment extends Fragment {
             currentNote = savedInstanceState.getParcelable(CURRENT_NOTE);
         } else {
             // Если восстановить не удалось, то сделаем объект с первым индексом
-            currentNote = new Note(0, getResources().getStringArray(R.array.notes)[0]);
+            currentNote = new Note(0, getResources().getStringArray(R.array.notes)[0], getResources().getStringArray(R.array.content_for_notes)[0]);
         }
 
         // Если можно нарисовать рядом герб, то сделаем это

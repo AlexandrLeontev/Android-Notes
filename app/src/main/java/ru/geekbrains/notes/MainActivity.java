@@ -1,7 +1,6 @@
 package ru.geekbrains.notes;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
 //1.	Создайте класс данных со структурой заметок: название заметки, описание заметки, дата создания и т.п.

@@ -7,13 +7,15 @@
     android:layout_height="match_parent">
 
     <!-- Фрагмент с выбором цифр -->
-    <fragment android:name="ru.geekbrains.notes.NotesFragment"
-        android:id="@+id/notes"
-        android:layout_weight="1"
-        android:layout_width="@dimen/layout_width"
-        android:layout_height="match_parent" />
 
     <!-- Здесь будет изображение выбранной цифры -->
+    <fragment
+        android:id="@+id/notes"
+        android:name="ru.geekbrains.notes.NotesFragment"
+        android:layout_width="@dimen/layout_width"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
     <FrameLayout
         android:id="@+id/imgs_for_notes"
         android:layout_width="@dimen/layout_width"

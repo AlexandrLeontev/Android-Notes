@@ -6,15 +6,19 @@ import android.os.Parcelable;
 public class Note implements Parcelable {
     private int imageIndex;
     private String noteName;
+    private String noteName2;
 
-    public Note(int imageIndex, String noteName){
+
+    public Note(int imageIndex, String noteName, String noteName2){
         this.imageIndex = imageIndex;
         this.noteName = noteName;
+        this.noteName2 = noteName2;
     }
 
     protected Note(Parcel in) {
         imageIndex = in.readInt();
         noteName = in.readString();
+        noteName2 = in.readString();
     }
 
     public static final Creator<Note> CREATOR = new Creator<Note>() {
@@ -33,6 +37,8 @@ public class Note implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(imageIndex);
         dest.writeString(noteName);
+        dest.writeString(noteName2);
+
     }
 
     @Override
@@ -40,14 +46,12 @@ public class Note implements Parcelable {
         return 0;
     }
 
-
     public int getImageIndex() {
         return imageIndex;
     }
 
-    public String getNoteName() {
-        return noteName;
+    public String getNoteName2() {
+        return noteName2;
     }
-
 
 }
