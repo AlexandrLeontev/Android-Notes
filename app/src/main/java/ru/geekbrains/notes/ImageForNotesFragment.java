@@ -20,7 +20,6 @@ public class ImageForNotesFragment extends Fragment {
     // Фрагменты рекомендуется создавать через фабричные методы.
     public static ImageForNotesFragment newInstance(Note note) {
         ImageForNotesFragment f = new ImageForNotesFragment();    // создание
-
         // Передача параметра
         Bundle args = new Bundle();
         args.putParcelable(ARG_NOTE, note);
@@ -42,12 +41,12 @@ public class ImageForNotesFragment extends Fragment {
         // Таким способом можно получить головной элемент из макета
         View view = inflater.inflate(R.layout.fragment_images_for_notes, container, false);
         // найти в контейнере элемент-изображение
-        AppCompatImageView imageCoatOfArms = view.findViewById(R.id.imgs_for_notes);
-        // Получить из ресурсов массив указателей на изображения гербов
+        AppCompatImageView imageForNotes = view.findViewById(R.id.imgs_for_notes);
+        // Получить из ресурсов массив указателей на изображения цифр заметок
         TypedArray images = getResources().obtainTypedArray(R.array.images_for_notes);
         // Выбрать по индексу подходящий
-        imageCoatOfArms.setImageResource(images.getResourceId(note.getImageIndex(), -1));
-        // Установить название города
+        imageForNotes.setImageResource(images.getResourceId(note.getImageIndex(), -1));
+        // Установить название заметки
         TextView noteNameView = view.findViewById(R.id.textView);
         noteNameView.setText(note.getNoteName2());
 

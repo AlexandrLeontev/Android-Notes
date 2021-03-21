@@ -107,7 +107,6 @@ public class NotesFragment extends Fragment {
     private void showLandImageForNotes(Note currentNote) {
         // Создаём новый фрагмент с текущей позицией для вывода герба
         ImageForNotesFragment detail = ImageForNotesFragment.newInstance(currentNote);
-
         // Выполняем транзакцию по замене фрагмента
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -116,13 +115,14 @@ public class NotesFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
-    // Показать цифру в портретной ориентации.
+
     private void showPortImageForNotes(Note currentNote) {
-        // Откроем вторую activity
-        Intent intent = new Intent();
-        intent.setClass(getActivity(), ImageForNotesActivity.class);
-        // и передадим туда параметры
-        intent.putExtra(ImageForNotesFragment.ARG_NOTE, currentNote);
-        startActivity(intent);
+        ImageForNotesFragment fragment = ImageForNotesFragment.newInstance(currentNote);
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.addToBackStack("list_fragment");
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        fragmentTransaction.commit();
     }
 }
