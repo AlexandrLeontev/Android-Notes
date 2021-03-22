@@ -51,9 +51,9 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_about) {
-                Snackbar.make(findViewById(R.id.drawer_layout), "About", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.drawer_layout), "О приложении", Snackbar.LENGTH_SHORT).show();
             } else {
-                Snackbar.make(findViewById(R.id.drawer_layout), "Settings", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.drawer_layout), "Настройки", Snackbar.LENGTH_SHORT).show();
             }
             drawer.closeDrawer(GravityCompat.START);
             return true;
