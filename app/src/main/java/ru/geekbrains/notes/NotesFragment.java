@@ -116,7 +116,6 @@ public class NotesFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
-
     private void showPortForNotes(Note currentNote) {
         ContentForNotesFragment fragment = ContentForNotesFragment.newInstance(currentNote);
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
