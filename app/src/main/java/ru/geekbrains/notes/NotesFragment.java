@@ -1,6 +1,6 @@
 package ru.geekbrains.notes;
 
-import android.content.Intent;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,18 +16,21 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class NotesFragment extends Fragment {
 
-    public static final String CURRENT_NOTE = "CurrentNote";
     private Note currentNote;
     private boolean isLandscape;
+    private Note[] notes;
 
     // При создании фрагмента укажем его макет
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_notes, container, false);
+        return inflater.inflate(R.layout.fragment_list_of_notes, container, false);
     }
 
     // вызывается после создания макета фрагмента, здесь мы проинициализируем список
@@ -37,91 +40,89 @@ public class NotesFragment extends Fragment {
         initList(view);
     }
 
-    // создаём список заметок на экране из массива в ресурсах
     private void initList(View view) {
-        LinearLayout layoutView = (LinearLayout)view;
-        String[] notes = (getResources().getStringArray(R.array.notes));
+        notes = new Note[]{
+                new Note(getString(R.string.first_note_title), getString(R.string.first_note_content), Calendar.getInstance()),
+                new Note(getString(R.string.second_note_title), getString(R.string.second_note_content), Calendar.getInstance()),
+                new Note(getString(R.string.third_note_title), getString(R.string.third_note_content), Calendar.getInstance()),
+        };
 
-        // В этом цикле создаём элемент TextView,
-        // заполняем его значениями,
-        // и добавляем на экран.
-        // Кроме того, создаём обработку касания на элемент
-        for(int i=0; i < notes.length; i++){
-            String note = notes[i];
-            TextView tv = new TextView(getContext());
-            tv.setText(note);
-            tv.setTextSize(30);
-            tv.setTextColor(Color.rgb(255,255,255));
-            layoutView.addView(tv);
-            tv.setPadding(0,22,0,0);
-            final int fi = i;
-            tv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    currentNote = new Note(fi, getResources().getStringArray(R.array.notes) [fi], getResources().getStringArray(R.array.content_for_notes) [fi]);
-                    showImageForNotes(currentNote);
-                }
-            });
+        for (Note note : notes) {
+            Context context = getContext();
+            if (context != null) {
+                LinearLayout linearView = (LinearLayout) view;
+                TextView firstTextView = new TextView(context);
+                TextView secondTextView = new TextView(context);
+                firstTextView.setText(note.getTitle());
+                firstTextView.setTextSize(25);
+                firstTextView.setTextColor(Color.BLACK);
+                SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy", Locale.getDefault());
+                secondTextView.setText(formatter.format(note.getCreationDate().getTime()));
+                secondTextView.setTextColor(Color.BLACK);
+                secondTextView.setTextSize(25);
+                linearView.addView(firstTextView);
+                linearView.addView(secondTextView);
+                firstTextView.setPadding(0, 50, 0, 0);
+                firstTextView.setOnClickListener(v -> initCurrentNote(note));
+                secondTextView.setOnClickListener(v -> initCurrentNote(note));
+            }
+        }
+    }
+
+    private void initCurrentNote(Note note) {
+        currentNote = note;
+        showNote(note);
+    }
+
+    private void showNote(Note currentNote) {
+        if (isLandscape) {
+            showLandForNotes(currentNote);
+        } else {
+            showPortForNotes(currentNote);
         }
     }
 
     // Сохраним текущую позицию (вызывается перед выходом из фрагмента)
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putParcelable(CURRENT_NOTE, currentNote);
+        outState.putParcelable(ContentForNotesFragment.ARG_NOTE, currentNote);
         super.onSaveInstanceState(outState);
     }
 
     // activity создана, можно к ней обращаться. Выполним начальные действия
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        // Определение, можно ли будет расположить рядом герб в другом фрагменте
+        // Определение, можно ли будет расположить рядом текст в другом фрагменте
         isLandscape = getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
         // Если это не первое создание, то восстановим текущую позицию
-
         if (savedInstanceState != null) {
-            currentNote = savedInstanceState.getParcelable(CURRENT_NOTE);
+            currentNote = savedInstanceState.getParcelable(ContentForNotesFragment.ARG_NOTE);
         } else {
-            // Если восстановить не удалось, то сделаем объект с первым индексом
-            currentNote = new Note(0, getResources().getStringArray(R.array.notes)[0], getResources().getStringArray(R.array.content_for_notes)[0]);
+            currentNote = notes[0];
         }
-
-        // Если можно нарисовать рядом герб, то сделаем это
         if (isLandscape) {
-            showLandImageForNotes(currentNote);
+            showLandForNotes(currentNote);
         }
     }
 
-    private void showImageForNotes(Note currentNote) {
-        if (isLandscape) {
-            showLandImageForNotes(currentNote);
-        } else {
-            showPortImageForNotes(currentNote);
-        }
-    }
-
-    // Показать герб в ландшафтной ориентации
-    private void showLandImageForNotes(Note currentNote) {
-        // Создаём новый фрагмент с текущей позицией для вывода герба
-        ImageForNotesFragment detail = ImageForNotesFragment.newInstance(currentNote);
-        // Выполняем транзакцию по замене фрагмента
+    private void showLandForNotes(Note currentNote) {
+        ContentForNotesFragment detail = ContentForNotesFragment.newInstance(currentNote);
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.imgs_for_notes, detail);  // замена фрагмента
+        fragmentTransaction.replace(R.id.note_layout, detail);  // замена фрагмента
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.commit();
     }
 
 
-    private void showPortImageForNotes(Note currentNote) {
-        ImageForNotesFragment fragment = ImageForNotesFragment.newInstance(currentNote);
+    private void showPortForNotes(Note currentNote) {
+        ContentForNotesFragment fragment = ContentForNotesFragment.newInstance(currentNote);
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack("list_fragment");
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.replace(R.id.list_of_notes_fragment_container, fragment);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.commit();
     }
