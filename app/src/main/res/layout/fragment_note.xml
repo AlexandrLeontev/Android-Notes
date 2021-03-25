@@ -11,30 +11,26 @@
         android:id="@+id/note_date_of_creation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/layout_marginTop"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:hint="@string/note_date"
-        android:textSize="@dimen/dateTextSize"/>
+        android:layout_marginTop="22dp"
+        android:textSize="20sp"
+        android:textAlignment="center" />
 
-    <TextView
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/note_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/layout_marginTop"
+        android:layout_marginTop="22dp"
         android:gravity="center"
-        android:textColor="@color/black"
         android:hint="@string/note_title"
-        android:textSize="@dimen/textSize" />
+        android:textSize="25sp" />
 
-    <TextView
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/note_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/layout_marginTop"
+        android:layout_marginTop="22dp"
         android:gravity="center"
-        android:textColor="@color/black"
-        android:textSize="@dimen/textSize"
-        android:hint="@string/note_content" />
+        android:textSize="25sp"
+        tools:text="@string/note_content" />
 
 </LinearLayout>

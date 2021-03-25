@@ -1,24 +1,26 @@
 package ru.geekbrains.notes;
 
-import android.content.Context;
+
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.SimpleDateFormat;
+
 import java.util.Calendar;
-import java.util.Locale;
+import java.util.Objects;
 
 public class NotesFragment extends Fragment {
 
@@ -30,56 +32,62 @@ public class NotesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.fragment_list_of_notes, container, false);
+
+//        RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_list_of_notes, container, false);
+//        recyclerView.setHasFixedSize(true); // если все элементы одинакового размера(высоты). True - recyclerView будет быстрее работать
+//
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getView().getContext()); // контекст можно получть и у другой вьюшки. recyclerView.getContext()
+//        recyclerView.setLayoutManager(linearLayoutManager);
+//
+//        String[] noteTitles = getResources().getString();
+//        recyclerView.setAdapter(new ViewHolderAdapter(inflater, noteTitles));
+//
+//        return  recyclerView; // ?
     }
 
     // вызывается после создания макета фрагмента, здесь мы проинициализируем список
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//        initList(view);
+
         super.onViewCreated(view, savedInstanceState);
-        initList(view);
+        initList();
+        RecyclerView recyclerView = view.findViewById(R.id.notes_recycler_view);
+        initRecyclerView(recyclerView, notes);
     }
 
-    private void initList(View view) {
+    private void initList() {
         notes = new Note[]{
                 new Note(getString(R.string.first_note_title), getString(R.string.first_note_content), Calendar.getInstance()),
                 new Note(getString(R.string.second_note_title), getString(R.string.second_note_content), Calendar.getInstance()),
                 new Note(getString(R.string.third_note_title), getString(R.string.third_note_content), Calendar.getInstance()),
+                new Note(getString(R.string.fourth_note_title), getString(R.string.fourth_note_content), Calendar.getInstance()),
+                new Note(getString(R.string.fifth_note_title), getString(R.string.fifth_note_content), Calendar.getInstance()),
+                new Note(getString(R.string.sixth_note_title), getString(R.string.sixth_note_content), Calendar.getInstance()),
+                new Note(getString(R.string.seventh_note_title), getString(R.string.seventh_note_content), Calendar.getInstance()),
+                new Note(getString(R.string.eighth_note_title), getString(R.string.eighth_note_content), Calendar.getInstance()),
+                new Note(getString(R.string.ninth_note_title), getString(R.string.ninth_note_content), Calendar.getInstance())
         };
-
-        for (Note note : notes) {
-            Context context = getContext();
-            if (context != null) {
-                LinearLayout linearView = (LinearLayout) view;
-                TextView firstTextView = new TextView(context);
-                TextView secondTextView = new TextView(context);
-                firstTextView.setText(note.getTitle());
-                firstTextView.setTextSize(25);
-                firstTextView.setTextColor(Color.BLACK);
-                SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy", Locale.getDefault());
-                secondTextView.setText(formatter.format(note.getCreationDate().getTime()));
-                secondTextView.setTextColor(Color.BLACK);
-                secondTextView.setTextSize(25);
-                linearView.addView(firstTextView);
-                linearView.addView(secondTextView);
-                firstTextView.setPadding(0, 50, 0, 0);
-                firstTextView.setOnClickListener(v -> initCurrentNote(note));
-                secondTextView.setOnClickListener(v -> initCurrentNote(note));
-            }
-        }
     }
 
-    private void initCurrentNote(Note note) {
-        currentNote = note;
-        showNote(note);
-    }
-
-    private void showNote(Note currentNote) {
-        if (isLandscape) {
-            showLandForNotes(currentNote);
-        } else {
-            showPortForNotes(currentNote);
-        }
+    private void initRecyclerView(RecyclerView recyclerView, Note[] notes) {
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        Adapter adapter = new Adapter(notes);
+        adapter.setOnItemClickListener((position, note) -> {
+            currentNote = note;
+            showNote(currentNote);
+        });
+        recyclerView.setAdapter(adapter);
+        //декоратор
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(Objects.requireNonNull(getContext()),
+                LinearLayoutManager.VERTICAL);
+        itemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(getContext(), R.drawable.separator)));
+        recyclerView.addItemDecoration(itemDecoration);
     }
 
     // Сохраним текущую позицию (вызывается перед выходом из фрагмента)
@@ -104,6 +112,14 @@ public class NotesFragment extends Fragment {
         }
         if (isLandscape) {
             showLandForNotes(currentNote);
+        }
+    }
+
+    private void showNote(Note currentNote) {
+        if (isLandscape) {
+            showLandForNotes(currentNote);
+        } else {
+            showPortForNotes(currentNote);
         }
     }
 
