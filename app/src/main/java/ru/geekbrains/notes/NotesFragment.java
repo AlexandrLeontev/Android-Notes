@@ -34,29 +34,17 @@ public class NotesFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         return inflater.inflate(R.layout.fragment_list_of_notes, container, false);
-
-//        RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_list_of_notes, container, false);
-//        recyclerView.setHasFixedSize(true); // если все элементы одинакового размера(высоты). True - recyclerView будет быстрее работать
-//
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getView().getContext()); // контекст можно получть и у другой вьюшки. recyclerView.getContext()
-//        recyclerView.setLayoutManager(linearLayoutManager);
-//
-//        String[] noteTitles = getResources().getString();
-//        recyclerView.setAdapter(new ViewHolderAdapter(inflater, noteTitles));
-//
-//        return  recyclerView; // ?
     }
 
     // вызывается после создания макета фрагмента, здесь мы проинициализируем список
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//        initList(view);
 
         super.onViewCreated(view, savedInstanceState);
         initList();
         RecyclerView recyclerView = view.findViewById(R.id.notes_recycler_view);
         initRecyclerView(recyclerView, notes);
+
     }
 
     private void initList() {
@@ -74,20 +62,20 @@ public class NotesFragment extends Fragment {
     }
 
     private void initRecyclerView(RecyclerView recyclerView, Note[] notes) {
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true); // если все элементы одинакового размера(высоты). True - recyclerView будет быстрее работать
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
         Adapter adapter = new Adapter(notes);
         adapter.setOnItemClickListener((position, note) -> {
             currentNote = note;
             showNote(currentNote);
         });
         recyclerView.setAdapter(adapter);
-        //декоратор
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(Objects.requireNonNull(getContext()),
+        DividerItemDecoration decoration = new DividerItemDecoration(Objects.requireNonNull(getContext()), //декоратор
                 LinearLayoutManager.VERTICAL);
-        itemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(getContext(), R.drawable.separator)));
-        recyclerView.addItemDecoration(itemDecoration);
+        decoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(getContext(), R.drawable.decorator)));
+        recyclerView.addItemDecoration(decoration);
+
     }
 
     // Сохраним текущую позицию (вызывается перед выходом из фрагмента)

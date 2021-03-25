@@ -17,17 +17,17 @@
         tools:text="@string/item">
 
         <TextView
-            android:id="@+id/first_tv_of_item"
+            android:id="@+id/first_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="25dp"
-            android:paddingStart="140dp"
+            android:paddingTop="@dimen/first_textView_paddingTop"
+            android:paddingStart="@dimen/first_textView_paddingStart"
             android:paddingEnd="@dimen/padding_of_rv_element"
             android:textSize="@dimen/textsize_of_rv_element"
             tools:text="@string/item" />
 
         <TextView
-            android:id="@+id/second_tv_of_item"
+            android:id="@+id/second_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="110dp"

@@ -38,7 +38,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull Adapter.ViewHolder holder, int position) {
-       // holder.getItemLayout().setBackgroundColor(notes[position].getColor());
         holder.getTitleTextView().setText(notes[position].getTitle());
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy",
                 Locale.getDefault());
@@ -64,28 +63,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             super(itemView);
             cardView = (CardView) itemView;
             itemLayout = itemView.findViewById(R.id.element_of_recycler_view);
-            titleTextView = itemView.findViewById(R.id.first_tv_of_item);
+            titleTextView = itemView.findViewById(R.id.first_textView);
             titleTextView.setTextColor(Color.BLACK);
-//            titleTextView.setTextSize(25);
-//            titleTextView.setPadding(400, 50, 0, 20);
-            dateTextView = itemView.findViewById(R.id.second_tv_of_item);
+            dateTextView = itemView.findViewById(R.id.second_textView);
             dateTextView.setTextColor(Color.BLACK);
-//            dateTextView.setTextSize(25);
-//            dateTextView.setPadding(250, 20, 0, 0);
-
-
-//                secondTextView.setTextSize(25);
-//                linearView.addView(firstTextView);
-//                linearView.addView(secondTextView);
-//                firstTextView.setPadding(0, 50, 0, 0);
             itemLayout.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 myClickListener.onItemClick(position, notes[position]);
             });
-        }
-
-        public LinearLayout getItemLayout() {
-            return itemLayout;
         }
 
         public TextView getTitleTextView() {
