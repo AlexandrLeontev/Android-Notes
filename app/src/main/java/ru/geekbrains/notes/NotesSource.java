@@ -73,9 +73,9 @@ public class NotesSource implements Parcelable {
         notes.remove(position);
     }
 
-    public void editNote(int position) {
-        notes.;
-    }
+   // public void editNote(int position) {
+     //   notes.;
+    //}
 
     public void changeNote(int position, Note note) {
         notes.set(position, note);

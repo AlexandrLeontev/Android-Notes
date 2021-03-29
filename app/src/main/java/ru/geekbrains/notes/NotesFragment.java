@@ -137,11 +137,11 @@ public class NotesFragment extends Fragment {
             data.deleteNote(position);
             adapter.notifyItemRemoved(position);
             return true;
-        } else if (item.getItemId() == R.id.menu_edit_note) {
-            data.editNote();
-            adapter.notifyItemChanged(position);
-            return true;
-        }
+       // } else if (item.getItemId() == R.id.menu_edit_note) {
+         //   data.editNote();
+        //    adapter.notifyItemChanged(position);
+        //    return true;
+       }
         return super.onContextItemSelected(item);
     }
 
