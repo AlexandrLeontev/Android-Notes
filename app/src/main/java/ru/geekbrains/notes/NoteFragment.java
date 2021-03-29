@@ -74,12 +74,10 @@ public class NoteFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_note, container, false);
         initView(view);
         if (note != null) {
-            //color = note.getColor();
             dateOfCreation = note.getCreationDate();
             populateView(view);
         }
         if (isNewNote) {
-            //color = getColor();
             SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy",
                     Locale.getDefault());
             dateOfCreation = String.format("%s: %s", "Дата создания",
@@ -108,7 +106,6 @@ public class NoteFragment extends Fragment {
         if (isNewNote) {
             isNewNote = false;
         }
-       // return new Note(title, content, dateOfCreation, color);
         return new Note(title, content, dateOfCreation);
     }
 
@@ -128,5 +125,4 @@ public class NoteFragment extends Fragment {
             contentText.setText(note.getContent());
         }
     }
-
 }

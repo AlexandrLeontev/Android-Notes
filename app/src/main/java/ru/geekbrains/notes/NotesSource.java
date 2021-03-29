@@ -91,5 +91,4 @@ public class NotesSource implements Parcelable {
         return String.format("%s: %s", "Дата создания",
                 formatter.format(Calendar.getInstance().getTime()));
     }
-
 }
