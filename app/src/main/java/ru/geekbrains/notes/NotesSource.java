@@ -3,7 +3,6 @@ package ru.geekbrains.notes;
 import android.content.res.Resources;
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -11,7 +10,12 @@ import java.util.Collections;
 import java.util.Locale;
 
 public class NotesSource implements Parcelable {
+
+    private ArrayList<Note> notes;
+    private Resources resources;
+
     public static final Creator<NotesSource> CREATOR = new Creator<NotesSource>() {
+
         @Override
         public NotesSource createFromParcel(Parcel in) {
             return new NotesSource(in);
@@ -22,9 +26,6 @@ public class NotesSource implements Parcelable {
             return new NotesSource[size];
         }
     };
-    private ArrayList<Note> notes;
-    private Resources resources;
-    private int counter = 0;
 
     public NotesSource(Resources resources) {
         this.resources = resources;
@@ -72,10 +73,6 @@ public class NotesSource implements Parcelable {
     public void deleteNote(int position) {
         notes.remove(position);
     }
-
-   // public void editNote(int position) {
-     //   notes.;
-    //}
 
     public void changeNote(int position, Note note) {
         notes.set(position, note);

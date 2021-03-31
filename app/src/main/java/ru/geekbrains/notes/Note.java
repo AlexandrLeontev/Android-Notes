@@ -4,8 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Note implements Parcelable {
+
     private String title;
     private String content;
+    private String creationDate;
+
     public static final Creator<Note> CREATOR = new Creator<Note>() {
         @Override
         public Note createFromParcel(Parcel in) {
@@ -17,8 +20,6 @@ public class Note implements Parcelable {
             return new Note[size];
         }
     };
-    private int color;
-    private String creationDate;
 
     public Note(String title, String content, String creationDate) {
         this.title = title;
@@ -30,7 +31,6 @@ public class Note implements Parcelable {
         title = in.readString();
         content = in.readString();
         creationDate = in.readString();
-        color = in.readInt();
     }
 
     @Override
@@ -43,7 +43,6 @@ public class Note implements Parcelable {
         dest.writeString(title);
         dest.writeString(content);
         dest.writeString(creationDate);
-        dest.writeInt(color);
     }
 
     public String getTitle() {
@@ -56,10 +55,6 @@ public class Note implements Parcelable {
 
     public String getCreationDate() {
         return creationDate;
-    }
-
-    public int getColor() {
-        return color;
     }
 
 }

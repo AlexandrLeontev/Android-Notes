@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -55,7 +54,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private CardView cardView;
+        private final CardView cardView;
         private LinearLayout itemLayout;
         private TextView titleTextView;
         private TextView dateTextView;
@@ -83,10 +82,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
         private void registerContextMenu(@NonNull View itemView) {
             if (fragment != null) {
-                itemView.setOnLongClickListener(v -> {
-                    menuPosition = getLayoutPosition();
-                    return false;
-                });
                 fragment.registerForContextMenu(itemView);
             }
         }

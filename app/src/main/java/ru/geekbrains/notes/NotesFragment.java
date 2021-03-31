@@ -1,6 +1,5 @@
 package ru.geekbrains.notes;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -10,23 +9,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.Objects;
-
 import static ru.geekbrains.notes.NoteFragment.CURRENT_DATA;
 import static ru.geekbrains.notes.NoteFragment.CURRENT_NOTE;
 
-
 public class NotesFragment extends Fragment {
 
+    private static final int MY_DEFAULT_DURATION = 1000;
     private Note currentNote;
     private NotesSource data;
     private Adapter adapter;
@@ -90,10 +87,6 @@ public class NotesFragment extends Fragment {
         adapter.setOnItemClickListener((position, note) -> {
             navigation.addFragment(NoteFragment.newInstance(data.getNote(position)),
                     true);
-            publisher.subscribe(note1 -> {
-                data.changeNote(position, note1);
-                adapter.notifyItemChanged(position);
-            });
         });
 
         recyclerView.setAdapter(adapter);
@@ -102,6 +95,12 @@ public class NotesFragment extends Fragment {
         itemDecoration.setDrawable(Objects.requireNonNull
                 (ContextCompat.getDrawable(getContext(), R.drawable.decorator)));
         recyclerView.addItemDecoration(itemDecoration);
+
+        // Установим анимацию. А чтобы было хорошо заметно, сделаем анимацию долгой
+        DefaultItemAnimator animator = new DefaultItemAnimator();
+        animator.setAddDuration(MY_DEFAULT_DURATION);
+        animator.setRemoveDuration(MY_DEFAULT_DURATION);
+        recyclerView.setItemAnimator(animator);
     }
 
     @Override
@@ -137,11 +136,15 @@ public class NotesFragment extends Fragment {
             data.deleteNote(position);
             adapter.notifyItemRemoved(position);
             return true;
-       // } else if (item.getItemId() == R.id.menu_edit_note) {
-         //   data.editNote();
-        //    adapter.notifyItemChanged(position);
-        //    return true;
-       }
+
+        } else if (item.getItemId() == R.id.menu_edit_note) {
+            navigation.addFragment(NoteFragment.newInstance(data.getNote(position)), true);
+            publisher.subscribe(note1 -> {
+                data.changeNote(position, note1);
+                adapter.notifyItemChanged(position);
+               });
+            return true;
+        }
         return super.onContextItemSelected(item);
     }
 
@@ -153,6 +156,7 @@ public class NotesFragment extends Fragment {
             publisher.subscribe(note -> {
                 data.addNote(note);
                 adapter.notifyItemInserted(data.size() - 1);
+                recyclerView.smoothScrollToPosition(data.size() - 1);
                 moveToLastPosition = true;
             });
             return true;

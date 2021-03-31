@@ -1,10 +1,10 @@
 package ru.geekbrains.notes;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Publisher {
+
     private List<Observer> observers;
 
     public Publisher() {

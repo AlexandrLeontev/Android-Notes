@@ -1,18 +1,14 @@
 package ru.geekbrains.notes;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
 import com.google.android.material.textfield.TextInputEditText;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -24,11 +20,9 @@ public class NoteFragment extends Fragment {
     public static final String CURRENT_DATA = "currentData";
     private Note note;
     private Publisher publisher;
-
     private TextInputEditText titleText;
     private TextInputEditText contentText;
     private TextView dateOfCreationText;
-    private int color;
     private String dateOfCreation;
     private boolean isNewNote = false;
 
@@ -118,7 +112,6 @@ public class NoteFragment extends Fragment {
     private void populateView(View view) {
         if (isNewNote) {
             dateOfCreationText.setText(dateOfCreation);
-            view.setBackgroundColor(color);
         } else {
             dateOfCreationText.setText(note.getCreationDate());
             titleText.setText(note.getTitle());
