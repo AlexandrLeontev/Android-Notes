@@ -49,8 +49,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull Adapter.ViewHolder holder, int position) {
         holder.getTitleTextView().setText(dataSource.getNote(position).getTitle());
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy",
-                Locale.getDefault());
         holder.getDateTextView().setText(dataSource.getNote(position).getCreationDate());
     }
 
@@ -64,14 +62,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        // private final CardView cardView;
         private LinearLayout itemLayout;
         private TextView titleTextView;
         private TextView dateTextView;
 
         public ViewHolder(@NonNull final View itemView) {
             super(itemView);
-            // cardView = (CardView) itemView;
             itemLayout = itemView.findViewById(R.id.element_of_recycler_view);
             titleTextView = itemView.findViewById(R.id.first_textView);
             dateTextView = itemView.findViewById(R.id.second_textView);
@@ -103,8 +99,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         public TextView getDateTextView() {
             return dateTextView;
         }
-
-        public LinearLayout getItemLayout() { return itemLayout; }
 
     }
 }

@@ -60,10 +60,6 @@ public class NotesSource implements NotesSourceInterface, Parcelable {
                 new Note(resources.getString(R.string.seventh_note_title), resources.getString(R.string.seventh_note_content), getDateOfCreation()),
                 new Note(resources.getString(R.string.eighth_note_title), resources.getString(R.string.eighth_note_content), getDateOfCreation()),
                 new Note(resources.getString(R.string.ninth_note_title), resources.getString(R.string.ninth_note_content), getDateOfCreation())
-//        };
-//        Collections.addAll(notes, notesArray);
-//        return this;
-//    }
         };
        Collections.addAll(notes, notesArray);
        if (notesSourceResponse != null) {

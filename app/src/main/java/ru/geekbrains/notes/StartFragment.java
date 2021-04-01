@@ -36,6 +36,7 @@ public class StartFragment extends Fragment {
     private GoogleSignInClient googleSignInClient;
 
     private com.google.android.gms.common.SignInButton buttonSignIn;
+    private MaterialButton buttonSingOut;
     private TextView emailView;
     private MaterialButton skip;
     private MaterialButton continue_;
@@ -99,8 +100,16 @@ public class StartFragment extends Fragment {
                 navigation.addFragment(NotesFragment.newInstance(), false);
             }
         });
-    }
 
+        buttonSingOut = view.findViewById(R.id.sing_out_button);
+        buttonSingOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signOut();
+            }
+        });
+
+    }
 
     @Override
     public void onStart() {
@@ -118,6 +127,16 @@ public class StartFragment extends Fragment {
 
     }
 
+    private void signOut() {
+        googleSignInClient.signOut()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        updateUI("");
+                        enableSign();
+                    }
+                });
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -145,10 +164,12 @@ public class StartFragment extends Fragment {
     private void enableSign() {
         buttonSignIn.setEnabled(true);
         continue_.setEnabled(false);
+        buttonSingOut.setEnabled(false);
     }
 
     private void disableSign() {
         buttonSignIn.setEnabled(false);
         continue_.setEnabled(true);
+        buttonSingOut.setEnabled(true);
     }
 }

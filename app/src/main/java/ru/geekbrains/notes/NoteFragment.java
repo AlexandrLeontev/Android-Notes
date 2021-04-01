@@ -20,7 +20,6 @@ import java.util.Objects;
 public class NoteFragment extends Fragment {
 
     public static final String CURRENT_NOTE = "currentNote";
-    //public static final String CURRENT_DATA = "currentData";
     private Note note;
     private Publisher publisher;
     private TextInputEditText titleText;
