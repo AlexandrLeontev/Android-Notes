@@ -18,8 +18,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+
+import ru.geekbrains.notes.MainActivity;
+import ru.geekbrains.notes.Navigation;
+import ru.geekbrains.notes.R;
 
 public class StartFragment extends Fragment {
 
@@ -32,10 +37,12 @@ public class StartFragment extends Fragment {
 
     private com.google.android.gms.common.SignInButton buttonSignIn;
     private TextView emailView;
+    private MaterialButton skip;
     private MaterialButton continue_;
 
     public static StartFragment newInstance() {
-        return new StartFragment();
+        StartFragment fragment = new StartFragment();
+        return fragment;
     }
 
     @Override
@@ -70,31 +77,54 @@ public class StartFragment extends Fragment {
 
     private void initView(View view) {
         buttonSignIn = view.findViewById(R.id.sign_in_button);
-        buttonSignIn.setOnClickListener(v -> signIn());
+        skip = view.findViewById(R.id.skip);
+        buttonSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signIn(); }
+        });
+
         emailView = view.findViewById(R.id.email);
         continue_ = view.findViewById(R.id.continue_);
-        continue_.setOnClickListener(v -> navigation.addFragment(NotesFragment.newInstance(), false));
+        continue_.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigation.addFragment(NotesFragment.newInstance(), false);
+            }
+        });
+
+        skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigation.addFragment(NotesFragment.newInstance(), false);
+            }
+        });
     }
+
 
     @Override
     public void onStart() {
         super.onStart();
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getContext());
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(requireContext());
         if (account != null) {
-            disableSign();
+           disableSign();
             updateUI(account.getEmail());
         }
     }
 
     private void signIn() {
-        startActivityForResult(googleSignInClient.getSignInIntent(), RC_SIGN_IN);
+        Intent signInIntent = googleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
-            handleSignInResult(GoogleSignIn.getSignedInAccountFromIntent(data));
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
         }
     }
 
