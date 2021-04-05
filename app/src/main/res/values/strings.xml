@@ -32,6 +32,7 @@
     <string name="sign_out">Выйти</string>
     <string name="delete_note_dialog_button_no">Нет</string>
     <string name="confirm_delete_button">Да</string>
+    <string name="delete_ask">Вы действительно хотите удалить заметку?</string>
 
 
 
