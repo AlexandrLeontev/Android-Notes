@@ -32,9 +32,7 @@ public class StartFragment extends Fragment {
     private static final String TAG = "GoogleAuth";
 
     private Navigation navigation;
-
     private GoogleSignInClient googleSignInClient;
-
     private com.google.android.gms.common.SignInButton buttonSignIn;
     private MaterialButton buttonSingOut;
     private TextView emailView;
