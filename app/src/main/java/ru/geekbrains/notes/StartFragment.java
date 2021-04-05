@@ -22,10 +22,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 
-import ru.geekbrains.notes.MainActivity;
-import ru.geekbrains.notes.Navigation;
-import ru.geekbrains.notes.R;
-
 public class StartFragment extends Fragment {
 
     private static final int RC_SIGN_IN = 40404;

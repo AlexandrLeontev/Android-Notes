@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="layout_width">0dp</dimen>
+    <dimen name="layout_margin">5dp</dimen>
     <dimen name="textSize">30sp</dimen>
     <dimen name="date_textSize">20sp</dimen>
     <dimen name="content_textSize">25sp</dimen>
